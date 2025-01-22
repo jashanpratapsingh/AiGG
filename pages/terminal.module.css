@@ -1,11 +1,12 @@
 .main {
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
   width: 100%;
   gap: 1em;
   margin: 0;
   font-family: var(--font-trispace);
-  margin-top: 4em;
   height: calc(100dvh - 10em);
 }
 
@@ -14,9 +15,11 @@
   flex-direction: row;
   max-width: 1520px;
   width: 100%;
-  padding: 5em 1em 1em 1em;
+  padding: 1em;
   gap: 2em;
-  margin: 0 auto;
+  margin: 4em auto 0;
+  align-items: center;
+  position: relative;
 }
 
 .currPath {
@@ -65,20 +68,17 @@
 }
 
 .terminalLogo {
-  display: flex;
-  position: relative;
-  width: 50%;
-  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 35%;
+  height: 75%;
+  z-index: 0;
+  text-align: right;
 }
 
 .terminalLogo img {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  max-width: 100%;
-  height: auto;
-  max-height: 130%;
-  z-index: 0;
+  height: 100%;
 }
 
 .terminal {
@@ -129,9 +129,6 @@
   .contentContainer {
     padding: 2em;
   }
-  .terminalLogo {
-    display: none;
-  }
   .currPath {
     font-size: 5em;
   }
@@ -140,20 +137,18 @@
     padding: 1em;
   }
   .terminalHeader {
-    width: 100%;
+    width: 65%;
     padding: 0;
   }
-  .terminalLogo {
-    width: 100%;
-  }
   .terminalLogo img {
-    width: 15em;
-    position: relative;
-    margin: auto;
+    height: 100%;
   }
 }
 
 @media screen and (max-width: 425px) {
+  .terminalLogo {
+    display: none;
+  }
   .currPath {
     display: none;
   }
