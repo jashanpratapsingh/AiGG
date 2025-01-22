@@ -79,55 +79,57 @@ const Navbar = () => {
     <div
       className={`${antaFont.variable} ${trispaceFont.variable}  ${styles.main}`}
     >
-      <Link href="/">
-        <div className={styles.logo}>AiGG</div>
-      </Link>
-      <div className={styles.tabCont}>
-        {tabs.map((tab) => (
-          <div
-            key={uuid()}
-            className={`${styles.tab} ${
-              currentPath === tab.name ? styles.active : ""
-            }`}
-          >
-            <Link href={tab.href}>{tab.title}</Link>
-          </div>
-        ))}
-      </div>
-      <div className={styles.walletConnect}>
-        <WalletButton />
-      </div>
-
-      <div className={styles.activeTab}>{currentPath}</div>
-      <div className={styles.hamburgerOuter}>
-        <div
-          className={`${styles.hamburger} ${isHamburger ? styles.open : ""}`}
-          onClick={() => setIsHamburger(!isHamburger)}
-          ref={isHamburger ? closeIconRef : undefined}
-        >
-          <div className={`${styles.line} ${styles.line1}`}></div>
-          <div className={`${styles.line} ${styles.line2}`}></div>
-          <div className={`${styles.line} ${styles.line3}`}></div>
-        </div>
-      </div>
-
-      <div
-        className={`${isHamburger ? styles.hamburgerCont : ""}`}
-        style={{ display: isHamburger ? "" : "none" }}
-      >
-        <div className={styles.sideNavCont} ref={sideNavRef}>
+      <div>
+        <Link href="/">
+          <div className={styles.logo}>AiGG</div>
+        </Link>
+        <div className={styles.tabCont}>
           {tabs.map((tab) => (
             <div
               key={uuid()}
-              className={`${styles.sideTab} ${
+              className={`${styles.tab} ${
                 currentPath === tab.name ? styles.active : ""
               }`}
             >
               <Link href={tab.href}>{tab.title}</Link>
             </div>
           ))}
-          <div className={styles.sideWalletConnect}>
-            <WalletButton />
+        </div>
+        <div className={styles.walletConnect}>
+          <WalletButton />
+        </div>
+
+        <div className={styles.activeTab}>{currentPath}</div>
+        <div className={styles.hamburgerOuter}>
+          <div
+            className={`${styles.hamburger} ${isHamburger ? styles.open : ""}`}
+            onClick={() => setIsHamburger(!isHamburger)}
+            ref={isHamburger ? closeIconRef : undefined}
+          >
+            <div className={`${styles.line} ${styles.line1}`}></div>
+            <div className={`${styles.line} ${styles.line2}`}></div>
+            <div className={`${styles.line} ${styles.line3}`}></div>
+          </div>
+        </div>
+
+        <div
+          className={`${isHamburger ? styles.hamburgerCont : ""}`}
+          style={{ display: isHamburger ? "" : "none" }}
+        >
+          <div className={styles.sideNavCont} ref={sideNavRef}>
+            {tabs.map((tab) => (
+              <div
+                key={uuid()}
+                className={`${styles.sideTab} ${
+                  currentPath === tab.name ? styles.active : ""
+                }`}
+              >
+                <Link href={tab.href}>{tab.title}</Link>
+              </div>
+            ))}
+            <div className={styles.sideWalletConnect}>
+              <WalletButton />
+            </div>
           </div>
         </div>
       </div>

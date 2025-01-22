@@ -1,28 +1,30 @@
 .main {
-  display: flex;
   position: fixed;
   top: 0;
 
   z-index: 100;
   background-color: white;
-  flex-direction: row;
-  width: 100%;
+  width: 100vw;
   background: linear-gradient(
     270deg,
     rgba(16, 16, 16, 0) 0%,
     rgba(40, 37, 120, 0.18) 50%,
     rgba(16, 16, 16, 0) 100%
   );
-  justify-content: space-between;
-  padding: 0.5em 2em;
-  max-width: 1320px;
-  margin: auto;
-  gap: 1em;
-  height: fit-content;
 
   left: 0;
   right: 0;
   backdrop-filter: blur(30em);
+}
+.main > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5em 2em;
+  margin: auto;
+  gap: 1em;
+  height: fit-content;
+  max-width: 1320px;
 }
 .main a {
   all: unset;
