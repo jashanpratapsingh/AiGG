@@ -15,7 +15,7 @@
   flex-direction: row;
   max-width: 1520px;
   width: 100%;
-  padding: 5em 1em 1em 1em;
+  padding: 5em 1em 0 1em;
   gap: 2em;
   height: 100%;
   margin: 0 auto;
@@ -109,5 +109,8 @@
   .landMass img {
     width: 15em;
     height: auto;
+  }
+  .contentContainer {
+    font-size: 80%;
   }
 }

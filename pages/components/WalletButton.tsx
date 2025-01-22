@@ -2,7 +2,7 @@ import { ConnectKitButton } from "connectkit";
 
 export default function WalletButton() {
   return (
-    <ConnectKitButton 
+    <ConnectKitButton
       customTheme={{
         "--ck-connectbutton-background": "transparent",
         "--ck-connectbutton-hover-background": "transparent",
@@ -10,4 +10,4 @@ export default function WalletButton() {
       }}
     />
   );
-};
+}

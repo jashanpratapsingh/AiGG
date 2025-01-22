@@ -72,15 +72,20 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .currPath {
+    font-size: 5em;
+  }
   .contentContainer {
     padding: 2em;
-  }
-  .currPath {
-    display: none;
   }
 
   .castle {
     bottom: -10em;
+  }
+
+  .agentHeader {
+    padding-left: 2em;
+    font-size: 1em;
   }
 
   .agent {
@@ -90,5 +95,14 @@
 
   .agentTime {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .contentContainer {
+    font-size: 80%;
+  }
+  .currPath {
+    display: none;
   }
 }
