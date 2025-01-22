@@ -60,7 +60,6 @@
 
   font-size: 2em;
   font-family: var(--font-anta);
-  align-items: center;
   z-index: 1;
   padding: 1em 0;
 }
@@ -130,11 +129,11 @@
   .contentContainer {
     padding: 2em;
   }
-  .currPath {
-    display: none;
-  }
   .terminalLogo {
     display: none;
+  }
+  .currPath {
+    font-size: 5em;
   }
 
   .terminalCont {
@@ -155,8 +154,15 @@
 }
 
 @media screen and (max-width: 425px) {
+  .currPath {
+    display: none;
+  }
   .terminal {
     padding: 0.5em;
+  }
+  .terminalHeader {
+    padding-left: 2em;
+    font-size: 1em;
   }
 
   .contentContainer {

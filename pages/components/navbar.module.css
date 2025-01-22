@@ -14,7 +14,7 @@
     rgba(16, 16, 16, 0) 100%
   );
   justify-content: space-between;
-  padding: 0.5em 3em;
+  padding: 0.5em 2em;
   max-width: 1320px;
   margin: auto;
   gap: 1em;
@@ -32,7 +32,7 @@
   font-family: var(--font-anta);
   color: #4d76ff;
   font-weight: 400;
-  font-size: 2em;
+  font-size: 2.5em;
   cursor: pointer;
 }
 
@@ -41,7 +41,8 @@
   width: 100%;
   max-width: 568px;
   font-family: var(--font-trispace);
-  gap: 3em;
+  font-size: 110%;
+  gap: 2em;
   align-items: center;
   justify-content: space-between;
   text-transform: capitalize;
@@ -182,6 +183,7 @@
   .tabCont {
     gap: 1em;
     max-width: 300px;
+    font-size: 90%;
   }
 }
 
