@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Navbar from "./components/navbar";
 import styles from "./agent.module.css";
 import { v4 as uuid } from "uuid";
-import { getLogs, LogsSchemaType } from "./utils/db";
+import { getLogs, LogsSchemaType } from "../utils/db";
 
 const antaFont = Anta({
   variable: "--font-anta",
