@@ -5,6 +5,8 @@
   gap: 1em;
   margin: 0;
   font-family: var(--font-trispace);
+  margin-top: 4em;
+  height: calc(100dvh - 10em);
 }
 
 .contentContainer {
@@ -19,7 +21,6 @@
 
 .currPath {
   width: fit-content;
-  height: 100%;
   font-size: 10em;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
@@ -43,6 +44,7 @@
   padding: 2.5em 4em;
   gap: 0px;
   border-radius: 4px;
+  justify-content: space-between;
 }
 
 .terminalDetails {
@@ -90,6 +92,13 @@
   align-items: center;
 }
 
+.terminal .micIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
 .inputBox {
   display: flex;
   width: 100%;
@@ -115,24 +124,19 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .currPath {
-    font-size: 7em;
-  }
   .terminalHeader {
     font-size: 1.5em;
   }
-}
-@media screen and (max-width: 768px) {
   .contentContainer {
     padding: 2em;
   }
   .currPath {
     display: none;
   }
-
-  .terminalDetails {
-    flex-direction: column;
+  .terminalLogo {
+    display: none;
   }
+
   .terminalCont {
     padding: 1em;
   }

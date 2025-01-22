@@ -13,7 +13,7 @@
 html,
 body {
   max-width: 100dvw;
-  min-height: 100dvh;
+  min-height: calc(100dvh - 5em);
 }
 
 body {
@@ -30,6 +30,8 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+
+  /* outline: 5px solid rgba(238, 245, 253, 0.678); */
 }
 
 a {

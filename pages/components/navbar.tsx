@@ -4,6 +4,20 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
 import WalletButton from "./WalletButton";
+import { Anta, Trispace } from "next/font/google";
+
+const antaFont = Anta({
+  variable: "--font-anta",
+  weight: ["400"],
+  subsets: ["latin"],
+});
+
+const trispaceFont = Trispace({
+  variable: "--font-trispace",
+  weight: ["400"],
+  subsets: ["latin"],
+});
+
 let tabs = [
   {
     name: "about",
@@ -62,10 +76,12 @@ const Navbar = () => {
   }, [isHamburger]);
 
   return (
-    <div className={styles.main}>
-      <div className={styles.logo}>
-        <Link href="/">Aigg</Link>
-      </div>
+    <div
+      className={`${antaFont.variable} ${trispaceFont.variable}  ${styles.main}`}
+    >
+      <Link href="/">
+        <div className={styles.logo}>AiGG</div>
+      </Link>
       <div className={styles.tabCont}>
         {tabs.map((tab) => (
           <div

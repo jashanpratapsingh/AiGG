@@ -1,5 +1,10 @@
 .main {
   display: flex;
+  position: fixed;
+  top: 0;
+
+  z-index: 100;
+  background-color: white;
   flex-direction: row;
   width: 100%;
   background: linear-gradient(
@@ -9,11 +14,15 @@
     rgba(16, 16, 16, 0) 100%
   );
   justify-content: space-between;
-  padding: 0.5em 5%;
+  padding: 0.5em 3em;
   max-width: 1320px;
   margin: auto;
   gap: 1em;
   height: fit-content;
+
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(30em);
 }
 .main a {
   all: unset;

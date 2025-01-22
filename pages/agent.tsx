@@ -56,6 +56,24 @@ const Agent = () => {
     });
   }, [walletAddress, signature]);
 
+  function formatTimestamp(timestamp: string) {
+    const date = new Date(timestamp);
+
+    // Extract components
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = String(date.getFullYear()).slice(-2); // Get last 2 digits of the year
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    // Format and return
+    return {
+      date: `${day}-${month}-${year}`,
+      time: `${hours}:${minutes}:${seconds}`,
+    };
+  }
+
   return (
     <>
       <Head>
@@ -71,12 +89,18 @@ const Agent = () => {
         <div className={styles.contentContainer}>
           <div className={styles.currPath}>{currentPath}</div>
           <div className={styles.agents}>
-            {logs.map((eachLog) => (
-              <div key={uuid()} className={styles.agent}>
-                <div className={styles.agentTime}>[{eachLog.timestamp}]</div>
-                <div className={styles.agentText}>{eachLog.text}</div>
-              </div>
-            ))}
+            {logs.map((eachLog) => {
+              const { date, time } = formatTimestamp(eachLog.timestamp);
+
+              return (
+                <div key={uuid()} className={styles.agent}>
+                  <div className={styles.agentTime}>
+                    {date} {time}
+                  </div>
+                  <div className={styles.agentText}>{eachLog.text}</div>
+                </div>
+              );
+            })}
           </div>
 
           <img src="/images/castle.png" alt="" className={styles.castle} />

@@ -5,6 +5,7 @@
   min-height: calc(100dvh - 500px);
   gap: 1em;
   margin: 0;
+  margin-top: 4em;
 
   font-family: var(--font-trispace);
 }
@@ -34,11 +35,13 @@
   margin: 0;
   line-height: 1;
   text-align: end;
+  height: fit-content;
 }
 
 .agents {
   display: flex;
   width: 100%;
+  height: fit-content;
   flex-direction: column;
   gap: 3em;
 }
@@ -51,17 +54,24 @@
 
 .agentTime {
   color: #4d76ff;
+  max-width: 30%;
   text-wrap: nowrap;
+  word-wrap: break-word;
+}
+
+.agentText {
+  text-align: justify;
 }
 
 .castle {
   position: absolute;
   width: 100%;
-  bottom: -15em;
+  top: 100%;
+  /* bottom: -15em; */
   z-index: -1;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .contentContainer {
     padding: 2em;
   }
@@ -71,5 +81,14 @@
 
   .castle {
     bottom: -10em;
+  }
+
+  .agent {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .agentTime {
+    width: 100%;
   }
 }
