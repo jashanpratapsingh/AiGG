@@ -1,0 +1,75 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: calc(100dvh - 500px);
+  gap: 1em;
+  margin: 0;
+
+  font-family: var(--font-trispace);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: row;
+  max-width: 1520px;
+  width: 100%;
+  padding: 5em 1em 1em 1em;
+  gap: 2em;
+  /* height: 100%; */
+  margin: 0 auto;
+  position: relative;
+}
+
+.currPath {
+  width: fit-content;
+  height: 100%;
+  font-size: 10em;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  text-transform: capitalize;
+  color: #4d76ff1a;
+  font-family: var(--font-anta);
+  margin: 0;
+  line-height: 1;
+  text-align: end;
+}
+
+.agents {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 3em;
+}
+
+.agent {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+}
+
+.agentTime {
+  color: #4d76ff;
+  text-wrap: nowrap;
+}
+
+.castle {
+  position: absolute;
+  width: 100%;
+  bottom: -15em;
+  z-index: -1;
+}
+
+@media screen and (max-width: 768px) {
+  .contentContainer {
+    padding: 2em;
+  }
+  .currPath {
+    display: none;
+  }
+
+  .castle {
+    bottom: -10em;
+  }
+}

@@ -1,0 +1,174 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background: linear-gradient(
+    270deg,
+    rgba(16, 16, 16, 0) 0%,
+    rgba(40, 37, 120, 0.18) 50%,
+    rgba(16, 16, 16, 0) 100%
+  );
+  justify-content: space-between;
+  padding: 0.5em 5%;
+  max-width: 1320px;
+  margin: auto;
+  gap: 1em;
+  height: fit-content;
+}
+.main a {
+  all: unset;
+}
+.logo {
+  display: flex;
+  font-family: var(--font-anta);
+  color: #4d76ff;
+  font-weight: 400;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.tabCont {
+  display: flex;
+  width: 100%;
+  max-width: 568px;
+  font-family: var(--font-trispace);
+  gap: 3em;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: capitalize;
+}
+
+.tabCont > div {
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #4d76ff;
+}
+
+.activeTab {
+  display: none;
+  text-align: center;
+  align-self: center;
+  color: #4d76ff66;
+  text-transform: capitalize;
+  font-size: 1.5em;
+}
+
+.walletConnect {
+  display: flex;
+  border-radius: 0.5em;
+  outline: 2px solid white;
+  padding: 0.25em 0.5em;
+  align-items: center;
+}
+
+/* .hamburger */
+.hamburgerOuter {
+  display: none;
+  align-items: center;
+  padding: 0.75em 1em;
+  border-radius: 0.5em;
+  z-index: 100;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1.5em;
+  height: 1.05em;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+  /* padding: 1em; */
+}
+.hamburger .line {
+  width: 100%;
+  height: 3px;
+  background-color: #4d76ff;
+  transition: transform 1s ease, opacity 0.3s ease;
+}
+
+.hamburger.open .line1 {
+  transform: rotate(495deg) translate(5px, -5px);
+}
+
+.hamburger.open .line2 {
+  animation: rotateAndHide 1s ease-in-out forwards;
+}
+
+.hamburger.open .line3 {
+  transform: rotate(-495deg) translate(5px, 5px);
+}
+
+/* hamburger menu */
+.hamburgerCont {
+  display: none;
+  z-index: 10;
+  position: fixed;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.sideNavCont {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  min-width: 15em;
+  height: 100%;
+  background-color: red;
+  color: var(--nav-side-color);
+  align-self: flex-end;
+  flex-direction: column;
+  padding: 5em 2em;
+  overflow-y: auto;
+}
+
+@keyframes rotateAndHide {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(90deg);
+    opacity: 0.75;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 0.5;
+  }
+  75% {
+    transform: rotate(270deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .tabCont {
+    gap: 1em;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .tabCont,
+  .walletConnect {
+    display: none;
+  }
+
+  .hamburgerOuter,
+  .hamburgerCont,
+  .activeTab {
+    display: flex;
+  }
+}
