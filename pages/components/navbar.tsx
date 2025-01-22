@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
 import WalletButton from "./WalletButton";
-
 let tabs = [
   {
     name: "about",
