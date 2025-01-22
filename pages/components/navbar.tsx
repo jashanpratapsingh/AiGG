@@ -22,7 +22,7 @@ let tabs = [
   {
     name: "about",
     href: "/",
-    title: "Home",
+    title: "About",
   },
   {
     name: "agent",
@@ -118,14 +118,15 @@ const Navbar = () => {
         >
           <div className={styles.sideNavCont} ref={sideNavRef}>
             {tabs.map((tab) => (
-              <div
+              <Link
+                href={tab.href}
                 key={uuid()}
                 className={`${styles.sideTab} ${
                   currentPath === tab.name ? styles.active : ""
                 }`}
               >
-                <Link href={tab.href}>{tab.title}</Link>
-              </div>
+                {tab.title}
+              </Link>
             ))}
             <div className={styles.sideWalletConnect}>
               <WalletButton />
