@@ -14,7 +14,11 @@ const config = createConfig(
   })
 );
 
-export const Web3Provider = ({ children }: { children: ReactNode }) => {
+interface Web3ProviderProps {
+  children: ReactNode;
+}
+
+export default function Web3Provider({ children }: { children: ReactNode }) {
   return (
     <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>

@@ -1,6 +1,6 @@
 import { ConnectKitButton } from "connectkit";
 
-export const WalletButton = () => {
+export default function WalletButton() {
   return (
     <ConnectKitButton 
       customTheme={{
