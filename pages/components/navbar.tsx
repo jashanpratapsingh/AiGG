@@ -3,6 +3,7 @@ import styles from "./navbar.module.css";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
+import { WalletButton } from "./WalletButton";
 let tabs = [
   {
     name: "about",
@@ -77,7 +78,9 @@ const Navbar = () => {
           </div>
         ))}
       </div>
-      <div className={styles.walletConnect}>connect wallet</div>
+      <div className={styles.walletConnect}>
+        <WalletButton />
+      </div>
 
       <div className={styles.activeTab}>{currentPath}</div>
       <div className={styles.hamburgerOuter}>
@@ -107,7 +110,9 @@ const Navbar = () => {
               <Link href={tab.href}>{tab.title}</Link>
             </div>
           ))}
-          <div className={styles.sideWalletConnect}>connect wallet</div>
+          <div className={styles.sideWalletConnect}>
+            <WalletButton />
+          </div>
         </div>
       </div>
     </div>
