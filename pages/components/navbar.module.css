@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 
-.tab.active {
+.active {
   color: #4d76ff;
 }
 
@@ -118,16 +118,32 @@
 
 .sideNavCont {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
-  min-width: 15em;
+  gap: 1em;
+  width: calc(min(70%, 20em));
   height: 100%;
-  background-color: red;
+  background-color: #091230;
   color: var(--nav-side-color);
   align-self: flex-end;
   flex-direction: column;
   padding: 5em 2em;
   overflow-y: auto;
+}
+
+.sideTab {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.sideWalletConnect {
+  width: fit-content;
+  display: flex;
+  border-radius: 0.5em;
+  outline: 2px solid white;
+  padding: 0.25em 0.5em;
+  align-items: center;
 }
 
 @keyframes rotateAndHide {

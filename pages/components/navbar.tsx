@@ -2,6 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./navbar.module.css";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { v4 as uuid } from "uuid";
+let tabs = [
+  {
+    name: "about",
+    href: "/",
+    title: "Home",
+  },
+  {
+    name: "agent",
+    href: "/agent",
+    title: "Agent",
+  },
+  {
+    name: "terminal",
+    href: "/terminal",
+    title: "Terminal",
+  },
+];
+
 const Navbar = () => {
   const [isHamburger, setIsHamburger] = useState(false);
   const sideNavRef = useRef<HTMLDivElement>(null);
@@ -11,22 +30,9 @@ const Navbar = () => {
   const [currentPath, setCurrentPath] = useState<string>("");
 
   useEffect(() => {
-    const current = router.asPath.replace("/", "").toLocaleLowerCase();
-
-    console.log(current);
-    if (current === "") {
-      setCurrentPath("about");
-      return;
-    }
-    if (current === "agent") {
-      setCurrentPath("agent");
-      return;
-    }
-    if (current === "terminal") {
-      setCurrentPath("terminal");
-      return;
-    }
-  }, [router.pathname]);
+    const current = router.asPath.replace("/", "").toLowerCase();
+    setCurrentPath(current || "about");
+  }, [router.asPath]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,27 +66,16 @@ const Navbar = () => {
         <Link href="/">Aigg</Link>
       </div>
       <div className={styles.tabCont}>
-        <div
-          className={`${styles.tab} ${
-            currentPath === "about" ? styles.active : ""
-          }`}
-        >
-          <Link href="/">Home</Link>
-        </div>
-        <div
-          className={`${styles.tab} ${
-            currentPath === "agent" ? styles.active : ""
-          }`}
-        >
-          <Link href="/agent">agent</Link>
-        </div>{" "}
-        <div
-          className={`${styles.tab} ${
-            currentPath === "terminal" ? styles.active : ""
-          }`}
-        >
-          <Link href="/terminal">terminal</Link>
-        </div>{" "}
+        {tabs.map((tab) => (
+          <div
+            key={uuid()}
+            className={`${styles.tab} ${
+              currentPath === tab.name ? styles.active : ""
+            }`}
+          >
+            <Link href={tab.href}>{tab.title}</Link>
+          </div>
+        ))}
       </div>
       <div className={styles.walletConnect}>connect wallet</div>
 
@@ -102,9 +97,17 @@ const Navbar = () => {
         style={{ display: isHamburger ? "" : "none" }}
       >
         <div className={styles.sideNavCont} ref={sideNavRef}>
-          {/* do from here */}
-          asd
-          {/* do until here */}
+          {tabs.map((tab) => (
+            <div
+              key={uuid()}
+              className={`${styles.sideTab} ${
+                currentPath === tab.name ? styles.active : ""
+              }`}
+            >
+              <Link href={tab.href}>{tab.title}</Link>
+            </div>
+          ))}
+          <div className={styles.sideWalletConnect}>connect wallet</div>
         </div>
       </div>
     </div>
