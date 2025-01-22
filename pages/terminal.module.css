@@ -71,14 +71,23 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 35%;
+  width: 40%;
   height: 75%;
   z-index: 0;
+  overflow: hidden;
   text-align: right;
 }
 
 .terminalLogo img {
   height: 100%;
+}
+
+.anon {
+  filter: blur(20px);
+}
+
+.poor {
+  filter: blur(10px);
 }
 
 .terminal {
@@ -137,17 +146,19 @@
     padding: 1em;
   }
   .terminalHeader {
-    width: 65%;
+    width: 60%;
     padding: 0;
   }
-  .terminalLogo img {
-    height: 100%;
+  .terminalLogo {
+    width: 40%;
+    height: 60%;
   }
 }
 
 @media screen and (max-width: 425px) {
   .terminalLogo {
-    display: none;
+    height: 50%;
+    /* display: none; */
   }
   .currPath {
     display: none;
@@ -157,7 +168,13 @@
   }
   .terminalHeader {
     padding-left: 2em;
+    padding-bottom: 60%;
     font-size: 1em;
+    height: 50%;
+  }
+  .terminalLogo {
+    width: 100%;
+    height: 50%;
   }
 
   .contentContainer {

@@ -28,6 +28,7 @@ const interFont = Inter({
 const Terminal = () => {
   const { address, isConnected } = useAccount();
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [userType, setUserType] = useState<"anon" | "poor" | "fren">("anon");
 
   const router = useRouter();
   const [currentPath, setCurrentPath] = useState<string>("");
@@ -58,6 +59,7 @@ const Terminal = () => {
   useEffect(() => {
     if (!isConnected) {
       setErrorMessage("Please sign in, so I know who I'm speaking with.");
+      setUserType("anon");
       return;
     }
 
@@ -65,10 +67,12 @@ const Terminal = () => {
     if (address && !isTerminalAvailable(address, "")) {
       // Empty signature for now
       setErrorMessage("You do not hold enough tokens.");
+      setUserType("poor");
       return;
     }
 
     setErrorMessage("");
+    setUserType("fren");
   }, [address, isConnected]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,7 +167,15 @@ const Terminal = () => {
               </div>
             </div>
           </div> */}
-          <div className={styles.terminalLogo}>
+          <div
+            className={`${styles.terminalLogo} ${
+              userType === "poor"
+                ? styles.poor
+                : userType === "fren"
+                ? styles.fren
+                : styles.anon
+            }`}
+          >
             <img src="/images/terminalLogo.png" alt="" />
           </div>
         </div>
