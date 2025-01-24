@@ -6,6 +6,8 @@ import Navbar from "./components/navbar";
 import styles from "./agent.module.css";
 import { v4 as uuid } from "uuid";
 import { getLogs, LogsSchemaType } from "../utils/db";
+import { serializeToken } from "@/utils/auth";
+import { useToken } from "@/hooks/useToken";
 
 const antaFont = Anta({
   variable: "--font-anta",
@@ -26,6 +28,7 @@ const interFont = Inter({
 
 const Agent = () => {
   const router = useRouter();
+  const { token, signToken } = useToken(true);
   const [currentPath, setCurrentPath] = useState<string>("");
   const [logs, setLogs] = useState<LogsSchemaType>([]);
   const walletAddress = "0x1234567890";
@@ -74,6 +77,30 @@ const Agent = () => {
     };
   }
 
+  async function getResponse(message: string) {
+    if (!token) return; // TODO: throw error
+
+    const { messages, error } = await fetch("/api/send-message", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authentication: "Bearer " + serializeToken(token),
+      },
+      body: JSON.stringify({ message }),
+    }).then((r) => r.json());
+
+    const newLogs = (messages ?? [error]).map((text: string) => ({
+      timestamp: new Date().toISOString(),
+      text,
+    }));
+
+    setLogs([...logs, ...newLogs]);
+  }
+
+  if (!token) {
+    return <button onClick={signToken}>Sign In</button>;
+  }
+
   return (
     <>
       <Head>
@@ -83,6 +110,7 @@ const Agent = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
+
       <div
         className={`${antaFont.variable} ${trispaceFont.variable} ${interFont.variable} ${styles.main}`}
       >
@@ -106,6 +134,9 @@ const Agent = () => {
           <img src="/images/castle.png" alt="" className={styles.castle} />
         </div>
       </div>
+      <button style={{ color: "white" }} onClick={() => getResponse("hello")}>
+        Send test message
+      </button>
     </>
   );
 };
