@@ -1,13 +1,20 @@
 import Head from "next/head";
 import { Anta, Inter, Trispace } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "./components/navbar";
 import styles from "./agent.module.css";
 import { v4 as uuid } from "uuid";
 import { getLogs, LogsSchemaType } from "../utils/db";
-import { serializeToken } from "@/utils/auth";
+import {
+  createTokenBody,
+  serializeToken,
+  serializeTokenBody,
+} from "@/utils/auth";
 import { useToken } from "@/hooks/useToken";
+import { useAccount, useConfig } from "wagmi";
+import WalletButton from "./components/WalletButton";
+import { signMessage } from "@wagmi/core";
 
 const antaFont = Anta({
   variable: "--font-anta",
@@ -29,10 +36,20 @@ const interFont = Inter({
 const Agent = () => {
   const router = useRouter();
   const { token, signToken } = useToken(true);
+  const { address, isConnected } = useAccount();
+
   const [currentPath, setCurrentPath] = useState<string>("");
   const [logs, setLogs] = useState<LogsSchemaType>([]);
+
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(true);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const walletAddress = "0x1234567890";
   const signature = "0x1234567890";
+
+  // /signmessage
+  const config = useConfig();
 
   useEffect(() => {
     const current = router.asPath.replace("/", "").toLocaleLowerCase();
@@ -97,8 +114,34 @@ const Agent = () => {
     setLogs([...logs, ...newLogs]);
   }
 
-  if (!token) {
-    return <button onClick={signToken}>Sign In</button>;
+  useMemo(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [logs]);
+
+  async function signUser() {
+    if (!address || !isConnected) {
+      return;
+    }
+
+    try {
+      const message = await signMessage(config, {
+        message: serializeTokenBody(createTokenBody(address)),
+      });
+
+      console.log(message);
+
+      if (message) {
+        setIsSignedIn(true);
+      }
+    } catch (error) {
+      setIsSignedIn(false);
+      return;
+    }
   }
 
   return (
@@ -116,27 +159,58 @@ const Agent = () => {
       >
         <div className={styles.contentContainer}>
           <div className={styles.currPath}>{currentPath}</div>
-          <div className={styles.agents}>
-            {logs.map((eachLog) => {
-              const { date, time } = formatTimestamp(eachLog.timestamp);
+          {isConnected && isSignedIn ? (
+            <div className={styles.agents} ref={scrollRef}>
+              {logs.map((eachLog) => {
+                const { date, time } = formatTimestamp(eachLog.timestamp);
 
-              return (
-                <div key={uuid()} className={styles.agent}>
-                  <div className={styles.agentTime}>
-                    {date} {time}
+                return (
+                  <div key={uuid()} className={styles.agent}>
+                    <div className={styles.agentTime}>
+                      {date} {time}
+                    </div>
+                    <div className={styles.agentText}>{eachLog.text}</div>
                   </div>
-                  <div className={styles.agentText}>{eachLog.text}</div>
+                );
+              })}
+              <button
+                style={{
+                  width: "fit-content",
+                  margin: "auto",
+                  padding: "1em 0.5em",
+                  background: "blue",
+                  color: "white",
+                }}
+                onClick={() => getResponse("hello")}
+              >
+                Send test message
+              </button>
+            </div>
+          ) : (
+            <div className={styles.notSignedIn}>
+              {!isConnected && (
+                <div className={styles.notSignedInContent}>
+                  <h1>Not signed in</h1>
+                  <p>Connect your wallet to view messages</p>
+                  <div className={styles.sideWalletConnect}>
+                    <WalletButton />
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-
+              )}
+              {isConnected && token && address && (
+                <div className={styles.notSignedInContent}>
+                  <h1>Not signed in</h1>
+                  <p>Sign in to view messages</p>
+                  <div className={styles.sideWalletConnect} onClick={signUser}>
+                    Sign in
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           <img src="/images/castle.png" alt="" className={styles.castle} />
         </div>
       </div>
-      <button style={{ color: "white" }} onClick={() => getResponse("hello")}>
-        Send test message
-      </button>
     </>
   );
 };

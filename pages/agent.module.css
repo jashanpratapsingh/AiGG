@@ -10,6 +10,17 @@
   font-family: var(--font-trispace);
 }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .contentContainer {
   display: flex;
   flex-direction: row;
@@ -20,6 +31,9 @@
   /* height: 100%; */
   margin: 0 auto;
   position: relative;
+
+  animation: slideUp 2s ease forwards;
+  animation-delay: var(--delay, 0s);
 }
 
 .currPath {
@@ -44,6 +58,9 @@
   height: fit-content;
   flex-direction: column;
   gap: 3em;
+  max-height: 60dvh;
+  overflow-y: auto;
+  padding: 0 2em 0 0;
 }
 
 .agent {
@@ -65,7 +82,8 @@
 
 .castle {
   position: absolute;
-  width: 100%;
+  width: 99%;
+  right: 0%;
   top: 100%;
   /* bottom: -15em; */
   z-index: -1;
@@ -105,4 +123,29 @@
   .currPath {
     display: none;
   }
+}
+
+.notSignedIn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1em;
+}
+.notSignedInContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+.sideWalletConnect {
+  width: fit-content;
+  display: flex;
+  border-radius: 0.5em;
+  outline: 2px solid white;
+  padding: 0.25em 0.5em;
+  align-items: center;
+  cursor: pointer;
 }

@@ -1,12 +1,13 @@
 import Head from "next/head";
 import { Anta, Inter, Trispace } from "next/font/google";
 import styles from "./terminal.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "./components/navbar";
 import { FiMic } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { isTerminalAvailable } from "../utils/db";
+import { Typewriter } from "react-simple-typewriter";
 
 const antaFont = Anta({
   variable: "--font-anta",
@@ -30,13 +31,25 @@ const Terminal = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [userType, setUserType] = useState<"anon" | "poor" | "fren">("anon");
 
+  const [shouldHide, setShouldHide] = useState(false);
+
   const router = useRouter();
   const [currentPath, setCurrentPath] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
 
+  const [haveEnoughTokens, setHaveEnoughTokens] = useState<boolean>(false);
+
+  const chatBoxRef = useRef<HTMLDivElement>(null);
   const [chatArray, setChatArray] = useState<
-    { input: string; response: string }[]
+    { input: string; response: string; timestamp: string }[]
   >([]);
+
+  useEffect(() => {
+    if (address === "0x80091dAb29a5C80E7d6a5E7e41d045289B3cC97E") {
+      setHaveEnoughTokens(true);
+      return;
+    }
+  }, [address, isConnected]);
 
   useEffect(() => {
     const current = router.asPath.replace("/", "").toLocaleLowerCase();
@@ -58,7 +71,9 @@ const Terminal = () => {
 
   useEffect(() => {
     if (!isConnected) {
-      setErrorMessage("Please sign in, so I know who I'm speaking with.");
+      setErrorMessage(
+        "Please Connect your wallet, so I know whom I'm speaking with."
+      );
       setUserType("anon");
       return;
     }
@@ -75,22 +90,54 @@ const Terminal = () => {
     setUserType("fren");
   }, [address, isConnected]);
 
+  // Animation logic and input
+  let ANIMATION_TIME = 2000;
+
+  useEffect(() => {
+    if (inputValue === "") {
+      // Ensure image is visible when input is empty
+      setShouldHide(false);
+    } else {
+      // Delay applying display: none until after the opacity transition
+      const timeout = setTimeout(() => {
+        setShouldHide(true);
+      }, ANIMATION_TIME);
+
+      return () => clearTimeout(timeout); // Cleanup on effect re-run
+    }
+  }, [inputValue]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
+  // chattin
+
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTo({
+        top: chatBoxRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chatArray]);
+
   const handleAddToChat = () => {
     if (inputValue.trim() === "") return;
+
+    const currentTime = new Date().toLocaleTimeString();
 
     const newEntry = {
       input: inputValue,
       response: `Bot response for "${inputValue}"`, // Customize your bot response logic here
+      timestamp: currentTime,
     };
 
     setChatArray((prevArray) => [...prevArray, newEntry]); // Add to the array
     setInputValue(""); // Clear input box
   };
 
+  console.log(chatArray);
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleAddToChat();
@@ -111,31 +158,73 @@ const Terminal = () => {
         <Navbar />
         <div className={styles.contentContainer}>
           <div className={styles.currPath}>{currentPath}</div>
-          <div className={styles.terminalHeader}>
-            {errorMessage
-              ? errorMessage
-              : `Now you've got my attention. Just you, me, and whatever's on
-                your mind—drop a tweet my way, and I'll make it our next move.
-                Let's chat, interact, and shake things up together.`}
-          </div>
-          {/* <div className={styles.terminalCont}>
-            <div
-              className={styles.terminalDetails}
+          <div
+            className={styles.terminalCont}
+            style={{
+              background:
+                inputValue || chatArray.length > 0 ? " #16214230" : "",
+            }}
+          >
+            <img
+              src="/images/terminalLogo.png"
+              alt=""
               style={{
-                opacity: inputValue === "" && chatArray.length == 0 ? 1 : 0, // Opacity logic
+                opacity: inputValue === "" && chatArray.length == 0 ? 1 : 0,
                 transition: "opacity 2s ease",
+                display: shouldHide ? "none" : "",
+              }}
+              className={styles.terminalLogo}
+            />
+
+            <div
+              className={styles.terminalText}
+              style={{
+                display: inputValue || chatArray.length > 0 ? "none" : "",
               }}
             >
-              <div className={styles.terminalHeader}>
-                Now you've got my attention. Just you, me, and whatever's on
+              {!isConnected ? (
+                <Typewriter
+                  words={[errorMessage]}
+                  loop={0}
+                  cursor
+                  cursorStyle="|"
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1000}
+                />
+              ) : !errorMessage && haveEnoughTokens ? (
+                <Typewriter
+                  words={[
+                    `Now you've got my attention. Just you, me, and whatever's on
                 your mind—drop a tweet my way, and I'll make it our next move.
-                Let's chat, interact, and shake things up together.
-              </div>
-              <div className={styles.terminalLogo}>
-                <img src="/images/terminalLogo.png" alt="" />
-              </div>
+                Let's chat, interact, and shake things up together`,
+                  ]}
+                  loop={0}
+                  cursor
+                  cursorStyle=""
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1000}
+                />
+              ) : (
+                <Typewriter
+                  words={[`You don't have enough tokens to access this page.`]}
+                  loop={0}
+                  cursor
+                  cursorStyle="|"
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1000}
+                />
+              )}
             </div>
-            <div className={styles.terminal}>
+
+            <div
+              className={styles.terminal}
+              style={{
+                display: isConnected && haveEnoughTokens ? "" : "none",
+              }}
+            >
               <div className={styles.micIcon}>
                 <FiMic />
               </div>
@@ -166,17 +255,15 @@ const Terminal = () => {
                 </svg>
               </div>
             </div>
-          </div> */}
-          <div
-            className={`${styles.terminalLogo} ${
-              userType === "poor"
-                ? styles.poor
-                : userType === "fren"
-                ? styles.fren
-                : styles.anon
-            }`}
-          >
-            <img src="/images/terminalLogo.png" alt="" />
+
+            <div ref={chatBoxRef} className={styles.chatBox}>
+              {chatArray.map((chat, index) => (
+                <div key={index} className={styles.chat}>
+                  <div className={styles.chatInput}>{chat.input}</div>
+                  <div className={styles.chatResponse}>{chat.response}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

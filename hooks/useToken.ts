@@ -53,8 +53,8 @@ export function useToken(force: boolean = false) {
       })
       .catch((e: any) =>
         setTokenError(
-          `error signing message: ${e?.message ?? JSON.stringify(e)}`,
-        ),
+          `error signing message: ${e?.message ?? JSON.stringify(e)}`
+        )
       )
       .finally(() => setIsSigning(false));
   }, [config, token, isConnected, address, isSinging]);
