@@ -11,7 +11,7 @@ const config = createConfig(
     chains: [avalanche, avalancheFuji],
     appName: "AiGG",
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
-  })
+  } as any) as any
 );
 
 interface Web3ProviderProps {
@@ -34,4 +34,4 @@ export default function Web3Provider({ children }: { children: ReactNode }) {
       </QueryClientProvider>
     </WagmiConfig>
   );
-};
+}
