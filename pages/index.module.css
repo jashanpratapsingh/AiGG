@@ -73,7 +73,7 @@
     padding: 2em;
   }
   .currPath {
-    display: none;
+    font-size: 5em;
   }
 
   .aboutCont {
@@ -112,5 +112,8 @@
   }
   .contentContainer {
     font-size: 80%;
+  }
+  .currPath {
+    display: none;
   }
 }
