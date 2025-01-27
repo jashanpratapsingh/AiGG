@@ -95,7 +95,7 @@
   width: 100%;
   padding: 0.5em 1.5em;
   background: #27396c52;
-  backdrop-filter: blur(28.200000762939453px);
+  backdrop-filter: blur(28);
   justify-content: space-between;
   align-items: center;
 }
