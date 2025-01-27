@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Navbar from "./components/navbar";
 import styles from "./agent.module.css";
 import { v4 as uuid } from "uuid";
-import { getLogs, LogsSchemaType } from "../utils/db";
+import { getLogs, LogsSchemaType } from "@/utils/db";
 import {
   createTokenBody,
   serializeToken,
@@ -16,6 +16,7 @@ import { useAccount, useConfig } from "wagmi";
 import WalletButton from "./components/WalletButton";
 import { signMessage } from "@wagmi/core";
 import { TwitterTweetEmbed } from "react-twitter-embed";
+import { supabase } from "@/utils/supabase";
 
 const antaFont = Anta({
   variable: "--font-anta",
@@ -70,12 +71,55 @@ const Agent = () => {
     }
   }, [router.pathname]);
 
+  // useEffect(() => {
+  //   getLogs(walletAddress, signature).then((logs) => {
+  //     setLogs(logs);
+  //     console.log(logs);
+  //   });
+  // }, [walletAddress, signature]);
+
+  type DbLogsSchemaType = {
+    id: string;
+    userId: string;
+    roomId: string;
+    type: string;
+    body: {
+      confidence: number;
+      explanation: string;
+      response: string;
+    };
+    createdAt: string;
+  };
+
+  // subscribe to latest 100 logs from supabase
   useEffect(() => {
-    getLogs(walletAddress, signature).then((logs) => {
-      setLogs(logs);
-      console.log(logs);
-    });
-  }, [walletAddress, signature]);
+    supabase
+      .from("logs")
+      .select("*")
+      .order("createdAt", { ascending: false })
+      .limit(50)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        if (data) {
+          console.log();
+          setLogs(
+            data.map((log: DbLogsSchemaType) => {
+              return {
+                timestamp: log.createdAt,
+                text: log.body.explanation,
+              };
+            })
+          );
+        }
+      });
+
+    return () => {
+      // subscription.unsubscribe();
+    };
+  }, []);
 
   function formatTimestamp(timestamp: string) {
     const date = new Date(timestamp);
@@ -115,14 +159,14 @@ const Agent = () => {
     setLogs([...logs, ...newLogs]);
   }
 
-  useMemo(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [logs]);
+  // useMemo(() => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollTo({
+  //       top: scrollRef.current.scrollHeight,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [logs]);
 
   async function signUser() {
     if (!address || !isConnected) {
@@ -160,36 +204,36 @@ const Agent = () => {
       >
         <div className={styles.contentContainer}>
           <div className={styles.currPath}>{currentPath}</div>
-          {isConnected && isSignedIn ? (
-            <div className={styles.agents} ref={scrollRef}>
-              {logs.map((eachLog) => {
-                const { date, time } = formatTimestamp(eachLog.timestamp);
+          {/* {isConnected && isSignedIn ? ( */}
+          <div className={styles.agents} ref={scrollRef}>
+            {logs.map((eachLog) => {
+              const { date, time } = formatTimestamp(eachLog.timestamp);
 
-                return (
-                  <div key={uuid()} className={styles.agent}>
-                    <div className={styles.agentTime}>
-                      {date}
-                      <br></br>
-                      {time}
-                    </div>
-                    <div className={styles.agentText}>
-                      {eachLog.text}
-                      {eachLog.tweetId && (
-                        <TwitterTweetEmbed
-                          options={{
-                            cards: "hidden",
-                            hideCard: true,
-                            hideThread: true,
-                            theme: "dark",
-                          }}
-                          tweetId="1083592734038929408"
-                        />
-                      )}
-                    </div>
+              return (
+                <div key={uuid()} className={styles.agent}>
+                  <div className={styles.agentTime}>
+                    {date}
+                    <br></br>
+                    {time}
                   </div>
-                );
-              })}
-              <button
+                  <div className={styles.agentText}>
+                    {eachLog.text}
+                    {eachLog.tweetId && (
+                      <TwitterTweetEmbed
+                        options={{
+                          cards: "hidden",
+                          hideCard: true,
+                          hideThread: true,
+                          theme: "dark",
+                        }}
+                        tweetId="1083592734038929408"
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            {/* <button
                 style={{
                   width: "fit-content",
                   margin: "auto",
@@ -200,9 +244,9 @@ const Agent = () => {
                 onClick={() => getResponse("hello")}
               >
                 Send test message
-              </button>
-            </div>
-          ) : (
+              </button> */}
+          </div>
+          {/* ) : (
             <div className={styles.notSignedIn}>
               {!isConnected && (
                 <div className={styles.notSignedInContent}>
@@ -223,7 +267,7 @@ const Agent = () => {
                 </div>
               )}
             </div>
-          )}
+          )} */}
           <img src="/images/castle.png" alt="" className={styles.castle} />
         </div>
       </div>
