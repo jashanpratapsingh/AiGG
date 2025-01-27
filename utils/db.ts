@@ -3,6 +3,7 @@ import { z } from "zod";
 export const LogSchema = z.object({
   timestamp: z.string().datetime(),
   text: z.string(),
+  tweetId: z.string().optional(),
 });
 export type LogSchemaType = z.infer<typeof LogSchema>;
 
@@ -34,7 +35,7 @@ export const isTerminalAvailable = (
   walletAddress: string,
   signature: string
 ): boolean => {
-  return true;
+  return false;
 };
 
 const _chatHistory: MessagesSchemaType = [];

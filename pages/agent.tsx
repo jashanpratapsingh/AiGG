@@ -15,6 +15,7 @@ import { useToken } from "@/hooks/useToken";
 import { useAccount, useConfig } from "wagmi";
 import WalletButton from "./components/WalletButton";
 import { signMessage } from "@wagmi/core";
+import { TwitterTweetEmbed } from "react-twitter-embed";
 
 const antaFont = Anta({
   variable: "--font-anta",
@@ -167,9 +168,24 @@ const Agent = () => {
                 return (
                   <div key={uuid()} className={styles.agent}>
                     <div className={styles.agentTime}>
-                      {date} {time}
+                      {date}
+                      <br></br>
+                      {time}
                     </div>
-                    <div className={styles.agentText}>{eachLog.text}</div>
+                    <div className={styles.agentText}>
+                      {eachLog.text}
+                      {eachLog.tweetId && (
+                        <TwitterTweetEmbed
+                          options={{
+                            cards: "hidden",
+                            hideCard: true,
+                            hideThread: true,
+                            theme: "dark",
+                          }}
+                          tweetId="1083592734038929408"
+                        />
+                      )}
+                    </div>
                   </div>
                 );
               })}
