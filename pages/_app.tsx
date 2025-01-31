@@ -6,8 +6,8 @@ import Web3Provider from "./components/Web3Provider";
 
 
 export const metadata: Metadata = {
-  title: "AiGG",
-  description: "AiGG application",
+  title: "aigg",
+  description: "aigg application",
 };
 
 export default function App({ Component, pageProps }: AppProps) {

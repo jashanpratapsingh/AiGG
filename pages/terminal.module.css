@@ -29,8 +29,9 @@
   transform: rotate(180deg);
   white-space: nowrap;
   text-transform: capitalize;
-  color: #4d76ff1a;
-  font-family: var(--font-anta);
+  color: #d5f5e942;
+  font-family: var(--font-trispace);
+  font-weight: 600;
 
   margin: 0;
   line-height: 1;
