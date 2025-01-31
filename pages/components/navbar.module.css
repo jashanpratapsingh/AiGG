@@ -28,8 +28,9 @@
 }
 .logo {
   display: flex;
-  font-family: var(--font-anta);
-  color: #4d76ff;
+  font-family: var(--font-trispace);
+  font-weight: 600;
+  color: #d5f5ea;
   font-weight: 400;
   font-size: 2.5em;
   cursor: pointer;

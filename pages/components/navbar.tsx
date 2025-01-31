@@ -81,7 +81,7 @@ const Navbar = () => {
     >
       <div>
         <Link href="/">
-          <div className={styles.logo}>AiGG</div>
+          <div className={styles.logo}>aigg</div>
         </Link>
         <div className={styles.tabCont}>
           {tabs.map((tab) => (
