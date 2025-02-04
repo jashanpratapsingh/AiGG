@@ -29,7 +29,6 @@
   writing-mode: vertical-lr;
   transform: rotate(180deg);
   white-space: nowrap;
-  text-transform: capitalize;
   color: #d5f5e942;
   font-family: var(--font-trispace);
   font-weight: 600;
